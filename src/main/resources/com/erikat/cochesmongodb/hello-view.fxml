@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikat.cochesmongodb.Scenes.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.erikat.cochesmongodb.Scenes.MainController">
    <children>
       <TableView fx:id="carTView" layoutX="57.0" layoutY="239.0" onMouseClicked="#onContentClickInTable" prefHeight="181.0" prefWidth="486.0">
          <columns>
@@ -28,10 +28,9 @@
       <Label layoutX="118.0" layoutY="152.0" text="Tipo:" />
       <ComboBox fx:id="typeCB" layoutX="150.0" layoutY="148.0" prefWidth="150.0" />
       <Button layoutX="57.0" layoutY="192.0" mnemonicParsing="false" onAction="#onNewClick" prefHeight="25.0" prefWidth="70.0" text="Nuevo" />
-      <Button layoutX="161.0" layoutY="192.0" mnemonicParsing="false" onAction="#onSaveClick" prefHeight="25.0" prefWidth="70.0" text="Guardar" />
-      <Button layoutX="267.0" layoutY="192.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="25.0" prefWidth="70.0" text="Buscar" />
-      <Button layoutX="369.0" layoutY="192.0" mnemonicParsing="false" onAction="#onModClick" prefHeight="25.0" prefWidth="70.0" text="Modificar" />
-      <Button layoutX="473.0" layoutY="192.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="25.0" prefWidth="70.0" text="Eliminar" />
+      <Button layoutX="473.0" layoutY="198.0" mnemonicParsing="false" onAction="#onClearClick" prefHeight="25.0" prefWidth="70.0" text="Limpiar" />
+      <Button layoutX="194.0" layoutY="198.0" mnemonicParsing="false" onAction="#onModClick" prefHeight="25.0" prefWidth="70.0" text="Modificar" />
+      <Button layoutX="335.0" layoutY="198.0" mnemonicParsing="false" onAction="#onDeleteClick" prefHeight="25.0" prefWidth="70.0" text="Eliminar" />
       <ListView fx:id="carListView" layoutX="57.0" layoutY="239.0" onMouseClicked="#onContentClickInList" prefHeight="182.0" prefWidth="486.0" />
       <Button fx:id="changeViewBtt" layoutX="229.0" layoutY="430.0" mnemonicParsing="false" onAction="#onChangeClick" prefHeight="26.0" prefWidth="141.0" text="Cambiar lista a tabla" />
    </children>

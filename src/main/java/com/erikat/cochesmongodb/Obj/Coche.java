@@ -1,5 +1,7 @@
 package com.erikat.cochesmongodb.Obj;
 
+import java.util.Objects;
+
 public class Coche {
     String matricula;
     String marca;
@@ -48,5 +50,13 @@ public class Coche {
     @Override
     public String toString() {
         return "Matrícula: " + this.matricula + "; Marca: " + this.marca + "; Modelo: " + this.modelo + "; Tipo: " + this.tipo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coche coche = (Coche) o;
+        return Objects.equals(matricula, coche.matricula) && Objects.equals(marca, coche.marca) && Objects.equals(modelo, coche.modelo) && Objects.equals(tipo, coche.tipo);
     }
 }
