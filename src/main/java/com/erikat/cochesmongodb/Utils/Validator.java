@@ -5,8 +5,13 @@ public class Validator {
         return plate.matches("[0-9]{4}[BCDFGHJKLMNPRSTVWXYZ]{3}") || plate.matches("[A-Z]{1,2}[0-9]{4}[A-Z]{2}");
         /*
         Traducción del regEx:
-            1. 4 números del 0 al 9
-            2. 3 letras mayúsculas de la B a la Z, quitando las vocales E I O y U (En españa, las letras antiguas
+            1. Matricula actual:
+                - 4 números
+                - 3 consonantes en mayúscula de la B a la Z
+            2. Matrícula antigua:
+                - 1 o 2 letras al principio (A a la Z)
+                - 4 números
+                - 3 letras al final (A a la Z)
          */
     }
 }

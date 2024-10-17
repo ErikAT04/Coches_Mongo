@@ -13,73 +13,77 @@ import org.bson.Document;
 import java.util.ArrayList;
 
 
-public class CRUDCoche {
+public class CRUDCoche { //DAO de Coche en MongoDB
     MongoClient con;
     MongoDatabase database;
     Gson gson;
     MongoCollection<Document> collection;
+
     public CRUDCoche(){
         //MongoDB
-        con = MongoDBManager.conectar();
-        gson = new Gson();
-        database = con.getDatabase("coches");
-        collection = database.getCollection("coches");
-    }
-    public ArrayList<Coche> listCars(){
-        MongoCursor<Document> cursor = collection.find().iterator();
-        ArrayList<Coche> coches = new ArrayList<>();
         try {
-            while (cursor.hasNext()){
-                String json = cursor.next().toJson();
-                Coche coche = gson.fromJson(json, Coche.class);
-                coches.add(coche);
+            con = MongoDBManager.conectar(); //Se conecta a la base de datos
+            gson = new Gson(); //Crea un gson
+            database = con.getDatabase("ErikAmo_Coches"); //Accede a la base de datos con este nombre
+            collection = database.getCollection("coches"); //Accede a la colección de la base de datos
+        }catch (NullPointerException e){ //Por si la base de datos es nula
+            System.out.println(e.getMessage());
+        }
+    }
+    public ArrayList<Coche> listarCoches(){ //Función que busca en la base de datos
+        ArrayList<Coche> coches = new ArrayList<>();
+        MongoCursor<Document> cursor = collection.find().iterator(); //Crea un iterador que recorre toda la colección de la base de datos
+        try {
+            while (cursor.hasNext()){ //Mientras haya datos a recorrer en el cursor
+                String json = cursor.next().toJson(); //Convierte el dato del cursor en json
+                Coche coche = gson.fromJson(json, Coche.class); //Convierte el json a clase con la librería Gson
+                coches.add(coche); //Añade el coche
             }
         }catch (Exception e){
             System.out.println("Error de programa");
         } finally {
-            cursor.close();
+            cursor.close(); //Cierra el cursor
         }
-        return coches;
+        return coches; //Devuelve la lista
     }
-    public Coche getCar(String plate){
-        Coche car = null;
+    public Coche getCoche(String matricula){
+        Coche coche = null; //Crea un objeto de tipo coche iniciado en nulo
         try {
-            Document document = collection.find(Filters.eq("matricula", plate)).first();
-            if (document != null) {
-                car = gson.fromJson(document.toJson(), Coche.class);
+            Document document = collection.find(Filters.eq("matricula", matricula)).first(); //Busca el primer objeto de la lista que tenga la matrícula pasada
+            if (document != null) { //Si el documento no es nulo, lo transforma en clase con Gson y lo guarda en el objeto de tipo coche
+                coche = gson.fromJson(document.toJson(), Coche.class);
             }
         }catch (Exception e){
             System.out.println("Error de base de datos");
         }
-        return car;
+        return coche; //Devuelve el coche, tanto si es nulo como si no
     }
 
-    public boolean insertCar(Coche car) {
+    public boolean insertarCoche(Coche coche) {
         try {
-            long formerSize = collection.countDocuments();
-            Document newCar = new Document("matricula", car.getMatricula()).append("marca", car.getMarca()).append("modelo", car.getModelo()).append("tipo", car.getTipo());
-            collection.insertOne(newCar);
-            return collection.countDocuments() != formerSize;
-        }catch (Exception e){ //Si falla la base de datos
+            long formerSize = collection.countDocuments(); //Tamaño antes de añadir
+            Document newCar = new Document("matricula", coche.getMatricula()).append("marca", coche.getMarca()).append("modelo", coche.getModelo()).append("tipo", coche.getTipo()); //Crea el documento con los datos del coche
+            collection.insertOne(newCar); //Inserta el documento
+            return collection.countDocuments() != formerSize; //Devuelve si ha cambiado el tamaño
+        }catch (Exception e){ //Si falla la base de datos devuelve falso
             return false;
         }
     }
 
-    public boolean updateCar(Coche car) {
+    public boolean actualizarCoche(Coche coche) {
         try{
-            Document formerCar = collection.find(Filters.eq("matricula", car.matricula)).first();
-            UpdateResult result = collection.updateOne(new Document("matricula", car.getMatricula()), new Document("$set", new Document("marca", car.getMarca()).append("modelo", car.getModelo()).append("tipo", car.getTipo())));
-            return result.wasAcknowledged(); //Devuelve si el update funcionó correctamente
-        }catch (Exception e){ //Si falla la base de datos
+            UpdateResult resultado = collection.updateOne(new Document("matricula", coche.getMatricula()), new Document("$set", new Document("marca", coche.getMarca()).append("modelo", coche.getModelo()).append("tipo", coche.getTipo())));
+            return resultado.wasAcknowledged(); //Devuelve si el update funcionó correctamente
+        }catch (Exception e){ //Si falla la base de datos devuelve falso
             return false;
         }
     }
 
-    public boolean deleteCar(String plate) {
+    public boolean borrarCoche(String coche) {
         try{
-            long formerSize = collection.countDocuments();
-            collection.deleteOne(Filters.eq("matricula", plate));
-            return formerSize != collection.countDocuments();
+            long formerSize = collection.countDocuments(); //Tamaño antes de borrar el objeto
+            collection.deleteOne(Filters.eq("matricula", coche));
+            return formerSize != collection.countDocuments(); //Devuelve si ha cambiado el tamaño
         } catch (Exception e){
             return false;
         }
