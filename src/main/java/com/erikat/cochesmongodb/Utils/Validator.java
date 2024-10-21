@@ -11,7 +11,7 @@ public class Validator {
             2. Matrícula antigua:
                 - 1 o 2 letras al principio (A a la Z)
                 - 4 números
-                - 3 letras al final (A a la Z)
+                - 2 letras al final (A a la Z)
          */
     }
 }
